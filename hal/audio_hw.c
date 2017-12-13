@@ -2845,10 +2845,6 @@ int start_output_stream(struct stream_out *out)
     if (ret == 0) {
         register_out_stream(out);
         if (out->realtime) {
-            if (out->pcm == NULL || !pcm_is_ready(out->pcm)) {
-                ALOGE("%s: pcm stream not ready", __func__);
-                goto error_open;
-            }
             ret = pcm_start(out->pcm);
             if (ret < 0)
                 goto error_open;
@@ -6469,7 +6465,6 @@ static void adev_close_input_stream(struct audio_hw_device *dev,
     } else
         in_standby(&stream->common);
 
-    pthread_mutex_lock(&adev->lock);
     if (audio_extn_ssr_get_stream() == in) {
         audio_extn_ssr_deinit();
     }
@@ -6486,7 +6481,6 @@ static void adev_close_input_stream(struct audio_hw_device *dev,
         audio_extn_sound_trigger_stop_lab(in);
     }
     free(stream);
-    pthread_mutex_unlock(&adev->lock);
     return;
 }
 
