@@ -125,6 +125,8 @@ endif
 LOCAL_MODULE:= libhwacceffectswrapper
 LOCAL_VENDOR_MODULE := true
 
+LOCAL_HEADER_LIBRARIES += generated_kernel_headers
+
 include $(BUILD_STATIC_LIBRARY)
 endif
 
